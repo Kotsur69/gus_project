@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Metodologia{% endblock %}
+
+{% block content %}
+<div class="page-wrap prose">
+    <h1 style="font-size: 1.6rem; margin-bottom: 2rem;">Metodologia i Źródła Danych</h1>
+
+    <h2>Źródła danych</h2>
+    <p>
+        Analiza opiera się na danych rzeczywistych publikowanych przez <strong>Główny Urząd Statystyczny (GUS)</strong>
+        — centralną instytucję statystyki publicznej w Polsce. Wykorzystano następujące zasoby:
+    </p>
+    <ul>
+        <li><strong>Bank Danych Lokalnych (BDL)</strong> — <code>https://bdl.stat.gov.pl</code> — dane o bezrobociu wg województw i powiatów</li>
+        <li><strong>Komunikaty i Obwieszczenia Prezesa GUS</strong> — roczne dane o przeciętnym wynagrodzeniu w sektorze przedsiębiorstw</li>
+        <li><strong>Roczniki Statystyczne</strong> — dane o zatrudnieniu wg sekcji PKD</li>
+        <li><strong>Eurostat</strong> — dane porównawcze dotyczące luki płacowej w UE-27</li>
+    </ul>
+
+    <h2>Zakres czasowy</h2>
+    <p>
+        Wszystkie analizy obejmują okres <strong>2015–2024</strong> (10 lat). Wybór tego zakresu umożliwia obserwację
+        trendów przed, w trakcie i po pandemii COVID-19 oraz w okresie wysokiej inflacji (2022–2023).
+    </p>
+
+    <h2>Metody analizy</h2>
+    <h3>Wynagrodzenie realne</h3>
+    <p>
+        Wynagrodzenie realne obliczono metodą deflacji skumulowanym wskaźnikiem CPI z bazą w roku 2015.
+        Formuła: <code>W_realne(t) = W_nominalne(t) / PI(1 + CPI_i)</code>, gdzie iloczyn obejmuje lata od 2015 do t.
+        Źródło wskaźnika CPI: komunikaty GUS (GUS, 2024).
+    </p>
+
+    <h3>Luka płacowa (Gender Pay Gap)</h3>
+    <p>
+        Obliczona jako: <code>GPG = (W_mężczyźni - W_kobiety) / W_mężczyźni × 100%</code>.
+        Jest to tzw. „niekorygowana luka płacowa" (unadjusted GPG), analogiczna do metodologii stosowanej przez Eurostat (Eurostat, 2024).
+    </p>
+
+    <h3>Zmiana zatrudnienia wg PKD</h3>
+    <p>
+        Zmiana procentowa obliczona jako: <code>(Z_2024 - Z_2020) / Z_2020 × 100%</code>,
+        gdzie Z oznacza przeciętne zatrudnienie (w tys.) w danej sekcji PKD.
+    </p>
+
+    <h2>Narzędzia technologiczne</h2>
+    <ul>
+        <li><strong>Python 3.11+</strong> — język programowania (backend i analiza danych)</li>
+        <li><strong>pandas 2.x</strong> — przetwarzanie i transformacja danych tabelarycznych (McKinney, 2022)</li>
+        <li><strong>Plotly 5.x</strong> — interaktywne wizualizacje (Plotly Technologies, 2015)</li>
+        <li><strong>Flask 3.x</strong> — mikroframework webowy (Grinberg, 2018)</li>
+        <li><strong>Flask-Login</strong> — zarządzanie sesjami użytkowników</li>
+        <li><strong>Flask-SQLAlchemy</strong> — ORM do bazy danych SQLite</li>
+        <li><strong>Werkzeug</strong> — hashowanie haseł (PBKDF2)</li>
+    </ul>
+
+    <h2>Ograniczenia</h2>
+    <p>
+        Dane GUS dotyczące sektora przedsiębiorstw obejmują podmioty o zatrudnieniu ≥10 osób, co nie uwzględnia
+        mikroprzedsiębiorstw ani samozatrudnionych. Luka płacowa prezentowana jest w wersji niekorygowanej
+        (nie uwzględnia różnic w wykształceniu, doświadczeniu, stanowisku). Dane o zatrudnieniu wg sekcji PKD
+        oparte są na szacunkach GUS i mogą podlegać rewizjom.
+    </p>
+
+    <h2>Bibliografia</h2>
+    <ul>
+        <li>Główny Urząd Statystyczny (2024). <em>Bank Danych Lokalnych — Rynek Pracy i Wynagrodzenia.</em> https://bdl.stat.gov.pl</li>
+        <li>Główny Urząd Statystyczny (2024). <em>Przeciętne miesięczne wynagrodzenie w sektorze przedsiębiorstw w 2024 r.</em> https://stat.gov.pl</li>
+        <li>Główny Urząd Statystyczny (2024). <em>Bezrobocie rejestrowane I–IV kwartał 2023 r.</em> Warszawa: GUS</li>
+        <li>McKinney, W. (2022). <em>Python for Data Analysis (3rd ed.).</em> O'Reilly Media</li>
+        <li>Grinberg, M. (2018). <em>Flask Web Development (2nd ed.).</em> O'Reilly Media</li>
+        <li>Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. <em>Computing in Science & Engineering, 9</em>(3), 90–95</li>
+        <li>Plotly Technologies Inc. (2015). <em>Collaborative data science.</em> https://plotly.com</li>
+        <li>Eurostat (2024). <em>Earnings statistics — Wages and labour costs.</em> https://ec.europa.eu/eurostat</li>
+    </ul>
+</div>
+{% endblock %}

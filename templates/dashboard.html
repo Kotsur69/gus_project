@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Analiza{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+    <h1 style="font-size: 1.6rem; margin-bottom: 0.5rem;">Analiza Rynku Pracy i Wynagrodzeń w Polsce</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+        Dane GUS za lata 2015–2024 &middot; Źródło: <a href="https://stat.gov.pl" target="_blank" style="color: var(--accent); text-decoration: none;">stat.gov.pl</a> &middot;
+        <a href="https://bdl.stat.gov.pl" target="_blank" style="color: var(--accent); text-decoration: none;">Bank Danych Lokalnych</a>
+    </p>
+
+    <!-- ============= KPI CARDS ============= -->
+    <div class="stats-grid">
+        <div class="stat-card" style="--stat-color: var(--accent);">
+            <div class="stat-label">Śr. wynagrodzenie brutto ({{ stats.salary_year }})</div>
+            <div class="stat-value">{{ stats.latest_salary }} <span class="stat-suffix">PLN</span></div>
+            <div class="stat-change positive">{{ stats.salary_change }}% r/r</div>
+        </div>
+        <div class="stat-card" style="--stat-color: var(--info);">
+            <div class="stat-label">Stopa bezrobocia</div>
+            <div class="stat-value">{{ stats.unemployment }}<span class="stat-suffix">%</span></div>
+            <div class="stat-change" style="color: var(--text-muted);">Rejestrowane, XII/{{ stats.salary_year }}</div>
+        </div>
+        <div class="stat-card" style="--stat-color: var(--danger);">
+            <div class="stat-label">Inflacja CPI</div>
+            <div class="stat-value">{{ stats.inflation }}<span class="stat-suffix">%</span></div>
+            <div class="stat-change" style="color: var(--text-muted);">Średnioroczna {{ stats.salary_year }}</div>
+        </div>
+        <div class="stat-card" style="--stat-color: #ec4899;">
+            <div class="stat-label">Luka płacowa</div>
+            <div class="stat-value">{{ stats.gender_gap }}<span class="stat-suffix">%</span></div>
+            <div class="stat-change positive">Trend malejący ↓</div>
+        </div>
+    </div>
+
+    <!-- ============= SEKCJA 1: WYNAGRODZENIA ============= -->
+    <div class="section-header">
+        <h2><span class="section-num">01</span>Wynagrodzenia w sektorze przedsiębiorstw</h2>
+        <p class="section-desc">
+            Analiza przeciętnego miesięcznego wynagrodzenia brutto w sektorze przedsiębiorstw (podmioty o zatrudnieniu ≥10 osób)
+            w ujęciu nominalnym i realnym. Wynagrodzenie realne obliczone metodą deflacji skumulowanym wskaźnikiem CPI (baza: 2015).
+        </p>
+    </div>
+
+    <div class="chart-container">
+        <div id="chart-salary-trend"></div>
+    </div>
+
+    <div class="analysis-text">
+        <strong>Interpretacja:</strong> Przeciętne wynagrodzenie brutto w sektorze przedsiębiorstw wzrosło z <strong>4 121 PLN</strong> w 2015 r.
+        do <strong>8 266 PLN</strong> w 2024 r. — co stanowi wzrost nominalny o ponad 100% w ciągu dekady (GUS, 2024).
+        Jednak po uwzględnieniu skumulowanej inflacji CPI, realne wynagrodzenie wzrosło znacząco wolniej.
+        Okres 2022–2023, kiedy inflacja CPI osiągnęła odpowiednio 14,4% i 11,4%, wyraźnie spowolnił realny przyrost siły nabywczej.
+        Dopiero w 2024 r. spadek inflacji do 3,7% przy utrzymaniu wysokiej dynamiki płac (+11%) pozwolił na wyraźne odbicie wynagrodzeń realnych
+        (McKinney, 2022; GUS, 2024).
+    </div>
+
+    <div class="chart-container">
+        <div id="chart-salary-yoy"></div>
+    </div>
+
+    <div class="analysis-text">
+        <strong>Interpretacja:</strong> Wykres dynamiki r/r ujawnia kluczowy moment: w latach <strong>2022–2023</strong> wzrost wynagrodzeń nominalnych
+        (ok. 12–15%) był niższy lub na granicy wskaźnika inflacji CPI. Oznacza to, że realna siła nabywcza pracowników albo stagnowała,
+        albo wręcz spadała. W 2024 r. nastąpiło odwrócenie — przy inflacji 3,7% i dynamice wynagrodzeń ok. 11% realne płace wyraźnie rosły.
+        Jest to zgodne z komunikatami GUS dotyczącymi realnego wzrostu przeciętnego wynagrodzenia w 2024 r. (GUS, 2024).
+    </div>
+
+    <!-- ============= SEKCJA 2: BEZROBOCIE ============= -->
+    <div class="section-header">
+        <h2><span class="section-num">02</span>Bezrobocie rejestrowane</h2>
+        <p class="section-desc">
+            Stopa bezrobocia rejestrowanego w ujęciu ogólnopolskim oraz w podziale na 16 województw.
+            Dane na koniec grudnia każdego roku (GUS, 2024).
+        </p>
+    </div>
+
+    <div class="chart-container">
+        <div id="chart-unemployment-national"></div>
+    </div>
+
+    <div class="analysis-text">
+        <strong>Interpretacja:</strong> Ogólnopolska stopa bezrobocia spadła z <strong>9,8%</strong> (2015) do <strong>5,1%</strong> (2024),
+        z przejściowym wzrostem do 6,2% w 2020 r. spowodowanym pandemią COVID-19.
+        Polska osiągnęła najniższe historyczne poziomy bezrobocia rejestrowanego, co jest wynikiem zarówno koniunktury gospodarczej,
+        jak i czynników demograficznych (starzenie się populacji, emigracja zarobkowa). Od 2022 r. stopa bezrobocia stabilizuje się w przedziale 5,1–5,2%,
+        co wskazuje na zbliżanie się do tzw. naturalnej stopy bezrobocia (Eurostat, 2024).
+    </div>
+
+    <div class="chart-container">
+        <div id="chart-unemployment-heatmap"></div>
+    </div>
+
+    <div class="analysis-text">
+        <strong>Interpretacja:</strong> Mapa cieplna ujawnia trwałe <strong>dysproporcje regionalne</strong>. Województwa wschodnie
+        (warmińsko-mazurskie, podkarpackie, świętokrzyskie) utrzymują bezrobocie 2–3-krotnie wyższe niż regiony zachodnie
+        (wielkopolskie, śląskie, dolnośląskie). W 2024 r. rozpiętość wynosi od 3,2% (wielkopolskie) do 8,7% (podkarpackie).
+        Jest to efekt nierównomiernej industrializacji, dostępu do infrastruktury transportowej oraz bliskości dużych ośrodków miejskich
+        jako centrów zatrudnienia (GUS, 2024).
+    </div>
+
+    <!-- ============= SEKCJA 3: PKD ============= -->
+    <div class="section-header">
+        <h2><span class="section-num">03</span>Struktura zatrudnienia i wynagrodzenia wg sekcji PKD</h2>
+        <p class="section-desc">
+            Porównanie wynagrodzeń brutto oraz dynamiki zatrudnienia w 15 sekcjach Polskiej Klasyfikacji Działalności
+            między rokiem 2020 a 2024.
+        </p>
+    </div>
+
+    <div class="chart-container">
+        <div id="chart-pkd-comparison"></div>
+    </div>
+
+    <div class="analysis-text">
+        <strong>Interpretacja:</strong> Najwyższe wynagrodzenia brutto w 2024 r. odnotowano w sekcji <strong>J (Informacja i komunikacja)</strong>
+        — 14 280 PLN, co jest ponad 2,3-krotnie więcej niż w sekcji I (zakwaterowanie i gastronomia — 5 980 PLN).
+        Sektor IT/ICT konsekwentnie przoduje w rankingach wynagrodzeń, co potwierdza globalny trend cyfryzacji gospodarki.
+        Wyraźny wzrost wynagrodzeń widoczny jest również w budownictwie (+51%) i transporcie (+49%), co wiąże się z inwestycjami
+        infrastrukturalnymi oraz niedoborem pracowników fizycznych (GUS, 2024; Plotly Technologies, 2015).
+    </div>
+
+    <div class="chart-container">
+        <div id="chart-pkd-employment"></div>
+    </div>
+
+    <div class="analysis-text">
+        <strong>Interpretacja:</strong> Największy wzrost zatrudnienia (2020→2024) odnotowały sekcje: <strong>zakwaterowanie i gastronomia</strong> (+13%,
+        odbudowa po pandemii), <strong>informacja i komunikacja</strong> (+15%, cyfryzacja) oraz <strong>działalność profesjonalna/naukowa</strong> (+9%).
+        Spadek zatrudnienia dotyczył przede wszystkim <strong>górnictwa</strong> (–10%), co odzwierciedla trwający proces transformacji energetycznej
+        i odchodzenia od wydobycia węgla kamiennego w Polsce (GUS, 2024).
+    </div>
+
+    <!-- ============= SEKCJA 4: LUKA PŁACOWA ============= -->
+    <div class="section-header">
+        <h2><span class="section-num">04</span>Luka płacowa — różnice wynagrodzeń kobiet i mężczyzn</h2>
+        <p class="section-desc">
+            Analiza Gender Pay Gap na podstawie danych GUS o przeciętnych wynagrodzeniach brutto w podziale na płeć.
+            Luka obliczona jako procentowa różnica wynagrodzenia kobiet względem mężczyzn.
+        </p>
+    </div>
+
+    <div class="chart-container">
+        <div id="chart-gender-gap"></div>
+    </div>
+
+    <div class="analysis-text">
+        <strong>Interpretacja:</strong> Luka płacowa w Polsce zmniejszyła się z <strong>18,3%</strong> (2015) do <strong>14,9%</strong> (2024),
+        co stanowi spadek o 3,4 p.p. Trend jest jednoznacznie malejący, choć wciąż przekracza średnią UE-27 (ok. 12,7% wg Eurostatu).
+        Zmniejszanie się luki wynika m.in. z rosnącego udziału kobiet w sektorach lepiej opłacanych (IT, finanse),
+        wzrostu płac w sektorze publicznym (edukacja, ochrona zdrowia — tradycyjnie silnie sfeminizowane)
+        oraz regulacji legislacyjnych promujących transparentność wynagrodzeń (Eurostat, 2024; GUS, 2024).
+    </div>
+
+    <!-- ============= SEKCJA 5: WNIOSKI ============= -->
+    <div class="section-header">
+        <h2><span class="section-num">05</span>Podsumowanie i wnioski</h2>
+    </div>
+
+    <div class="analysis-text" style="border-left-color: var(--accent-secondary);">
+        <strong>Kluczowe wnioski z analizy:</strong><br><br>
+        <strong>1. Dynamiczny wzrost nominalny, ograniczony realny:</strong> Wynagrodzenia nominalne podwoiły się w dekadzie 2015–2024,
+        jednak skumulowana inflacja (zwłaszcza w latach 2021–2023) znacząco ograniczyła realny przyrost siły nabywczej.<br><br>
+        <strong>2. Historycznie niskie bezrobocie:</strong> Stopa bezrobocia ustabilizowała się na poziomie ok. 5%, co jest najniższym
+        wynikiem w historii III RP. Główne czynniki: koniunktura gospodarcza, demografia, emigracja.<br><br>
+        <strong>3. Trwałe dysproporcje regionalne:</strong> Różnica stopy bezrobocia między najlepszym a najgorszym województwem
+        wynosi ponad 5 p.p. — problem strukturalny wymagający interwencji w politykę regionalną.<br><br>
+        <strong>4. Dominacja sektora IT/ICT:</strong> Sekcja J (informacja i komunikacja) ma najwyższe wynagrodzenia i najdynamiczniej
+        rosnące zatrudnienie, co potwierdza rolę cyfryzacji jako silnika polskiej gospodarki.<br><br>
+        <strong>5. Malejąca, ale wciąż istotna luka płacowa:</strong> Różnica wynagrodzeń kobiet i mężczyzn zmniejszyła się o 3,4 p.p.,
+        ale nadal przekracza średnią UE, co wskazuje na dalszą potrzebę działań wyrównawczych.
+    </div>
+</div>
+
+<script>
+    // Render all Plotly charts
+    function renderChart(divId, chartData) {
+        Plotly.newPlot(divId, chartData.data, chartData.layout, {
+            responsive: true,
+            displayModeBar: true,
+            modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+            displaylogo: false
+        });
+    }
+
+    renderChart('chart-salary-trend', {{ charts.salary_trend | safe }});
+    renderChart('chart-salary-yoy', {{ charts.salary_yoy | safe }});
+    renderChart('chart-unemployment-national', {{ charts.unemployment_national | safe }});
+    renderChart('chart-unemployment-heatmap', {{ charts.unemployment_heatmap | safe }});
+    renderChart('chart-pkd-comparison', {{ charts.pkd_comparison | safe }});
+    renderChart('chart-pkd-employment', {{ charts.pkd_employment | safe }});
+    renderChart('chart-gender-gap', {{ charts.gender_gap | safe }});
+</script>
+{% endblock %}

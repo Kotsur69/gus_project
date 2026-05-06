@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Strona główna{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+    <div class="hero">
+        <div class="hero-badge">Dane GUS 2015–2024</div>
+        <h1>Analiza <span class="accent">Rynku Pracy</span><br>i Wynagrodzeń w Polsce</h1>
+        <p>Interaktywna analiza statystyczna oparta na rzeczywistych danych Głównego Urzędu Statystycznego. Wynagrodzenia, bezrobocie, zatrudnienie — wszystko w jednym dashboardzie.</p>
+        <div class="hero-actions">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Przejdź do analizy →</a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Utwórz konto</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline">Zaloguj się</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>7 interaktywnych wizualizacji</h3>
+            <p>Wykresy liniowe, słupkowe, mapy cieplne — wszystkie oparte o bibliotekę Plotly.js z trybem hover i eksportem PNG.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3>Wynagrodzenia nominalne i realne</h3>
+            <p>Porównanie dynamiki płac z inflacją CPI. Jak zmieniała się realna siła nabywcza Polaków w dekadzie 2015–2024?</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🗺️</div>
+            <h3>Analiza regionalna</h3>
+            <p>Mapa cieplna bezrobocia wg 16 województw — od wielkopolskiego (3.2%) po warmińsko-mazurskie (8.5%).</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏭</div>
+            <h3>Struktura wg sekcji PKD</h3>
+            <p>Porównanie wynagrodzeń i zatrudnienia w 15 sekcjach Polskiej Klasyfikacji Działalności.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚖️</div>
+            <h3>Luka płacowa</h3>
+            <p>Analiza różnic w wynagrodzeniach kobiet i mężczyzn — trend malejący z 18.3% do 14.9% w dekadzie.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3>System logowania</h3>
+            <p>Bezpieczna autentykacja z hashowaniem haseł (Werkzeug). Analiza dostępna wyłącznie po zalogowaniu.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

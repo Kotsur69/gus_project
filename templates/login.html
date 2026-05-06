@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <h1>Zaloguj się</h1>
+        <p class="subtitle">Uzyskaj dostęp do analizy rynku pracy</p>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label for="username">Nazwa użytkownika</label>
+                <input type="text" id="username" name="username" placeholder="np. jan_kowalski" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password">Hasło</label>
+                <input type="password" id="password" name="password" placeholder="Minimum 6 znaków" required>
+            </div>
+            <div class="checkbox-row">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Zapamiętaj mnie</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Zaloguj się →</button>
+        </form>
+
+        <p class="auth-footer">
+            Nie masz konta? <a href="{{ url_for('register') }}">Zarejestruj się</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
