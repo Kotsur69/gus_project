@@ -73,4 +73,4 @@ gus_project/
 
 ## Licencja
 
-Projekt akademicki — WSB Merito 2024/2025.
+Projekt akademicki — WSB Merito 2026/2027.
