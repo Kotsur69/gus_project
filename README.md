@@ -1,6 +1,6 @@
 # Analiza Rynku Pracy i Wynagrodzeń w Polsce
 
-**Projekt Zaliczeniowy — WSB Merito 2024/2025**  
+**Projekt Zaliczeniowy — WSB Merito 2026/2027**  
 Autor: Mateusz Mazur (nr albumu: 137683)
 
 ## Opis
